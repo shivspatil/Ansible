@@ -1,0 +1,33 @@
+---
+- name: set up Apache web server
+  hosts: all
+  tasks:
+    - name: Install Apache web server
+      become: true
+      become_user: root
+      yum:
+        name: httpd
+        state: latest
+
+    - name: Ensure PolicyKit is installed
+      yum:
+        name: polkit
+        state: present
+
+    - name: Start Apache Service
+      service:
+        name: httpd
+        state: started
+
+    - name: Enable Apache Service
+      service:
+        name: httpd
+        enabled: yes
+
+    - name: Update the default landing page
+      copy:
+        content: "<html><body><h1>Welcome to the Apache Web Server!</h1></body></html>"
+        dest: /var/www/html/index.html
+        owner: apache
+        group: apache
+        mode: '0644'
