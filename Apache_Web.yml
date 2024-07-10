@@ -1,3 +1,5 @@
+#This playbook will install Apache web server on remote host
+
 ---
 - name: set up Apache web server
   hosts: all
